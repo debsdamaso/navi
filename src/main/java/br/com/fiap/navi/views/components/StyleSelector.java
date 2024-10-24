@@ -11,7 +11,7 @@ public class StyleSelector extends Select<String> {
         this.setPrefixComponent(VaadinIcon.CHAT.create());
         this.setMinWidth("300px");
         //defina aqui os estilos de escrita que deseja disponibilizar
-        this.setItems("Formal", "Informal");
+        this.setItems("Formal", "Informal", "Gíria das ruas", "Criança de 2 anos", "Juridiquês", "Caipira", "Fausto Silva");
         this.setEmptySelectionAllowed(false);
     }
 }

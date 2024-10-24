@@ -13,7 +13,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextArea;
-import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
 @Route("")
@@ -25,6 +24,7 @@ public class HomeView extends VerticalLayout {
     private Select<String> selectStyle = new StyleSelector();
 
     public HomeView(NaviService naviService) {
+        this.naviService = naviService;
 
         translatedTextArea.setReadOnly(true);
         var split = new SplitLayout(originalTextArea, translatedTextArea);
@@ -33,13 +33,17 @@ public class HomeView extends VerticalLayout {
 
         var button = new Button("Traduzir", VaadinIcon.ARROW_RIGHT.create());
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        //defina aqui o comportamento do botão de tradução
-        //ele deve chamar o service passando o texto original e o estilo selecionado
+        // Definindo o comportamento do botão de tradução
+        button.addClickListener(event -> {
+            String originalText = originalTextArea.getValue();
+            String selectedStyle = selectStyle.getValue();
+            String translatedText = naviService.translate(originalText, selectedStyle);
+            translatedTextArea.setValue(translatedText);
+        });
 
         add(new H1("Navi"));
         add(new Paragraph("Tradutor de textos universais"));
         add(split);
         add(new HorizontalLayout(selectStyle, button));
-        this.naviService = naviService;
     }
 }
